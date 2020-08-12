@@ -25,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2017102004;   // The current module version.
-$plugin->requires  = 2016082500;
+$plugin->version   = 2018022501;   // The current module version.
+$plugin->requires  = 2016120505; // Totara 10
 $plugin->component = 'mod_reengagement';
-$plugin->release   = '3.3.6';
+$plugin->release   = '3.2.1';
 $plugin->maturity  = MATURITY_STABLE;
 $plugin->cron      = 0; // Now uses a scheduled task.

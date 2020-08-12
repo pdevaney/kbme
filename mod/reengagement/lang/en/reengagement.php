@@ -28,6 +28,21 @@ $string['reengagement'] = 'reengagement';
 $string['pluginadministration'] = '';
 $string['modulename'] = 'Reengagement';
 $string['modulenameplural'] = 'Reengagements';
+$string['modulename_help'] = 'The Reengagement activity provides a way for you to send timely notifications to students and 3rd parties, which can include reminders to return to the course and complete activities.
+
+The notification trigger is a specified period of time after a starting event, which may be enrolment in the course, completing an activity, or other course variables.
+Notifications can be set to repeat for a limited run, and/or until the target activity is completed, and can have delay periods between repeats.
+If the user has already completed the target activity, no email is sent.
+
+You could use this plugin to: <ul>
+<li>Selectively release timed content in a course.</li>
+<li>Repeatedly remind students that an assignment is overdue.</li>
+<li>Advise training managers that the course is complete.</li>
+</ul>
+
+The Reengagement activity is very flexible, explore what you can do with it.
+
+<a href=https://docs.moodle.org/39/en/Reengagement_activity>More Help</a>';
 
 // Alphabetized.
 $string['activitycompleted'] = 'This activity has been marked as complete';
@@ -51,18 +66,18 @@ $string['emailcontent_help'] = 'When the module notifies a user, it takes the no
 $string['emailcontentthirdparty'] = 'Notification content (Third-party)';
 $string['emailcontentthirdparty_help'] = 'When the module notifies a third-party, it takes the notification content from this field.';
 $string['emailcontentmanager'] = 'Notification content (Manager)';
-$string['emailcontentmanager_help'] = 'When the module notifies a user\'s manager, it takes the notification content from this field.';
+$string['emailcontentmanager_help'] = 'When the module notifies a user\'s manager(s), it takes the notification content from this field.';
 $string['emailcontentthirdpartydefaultvalue'] = 'This is a reminder notification from course %courseshortname%, regarding user %userfirstname% %userlastname%.';
 $string['emailcontentdefaultvalue'] = 'This is a reminder notification from course %courseshortname%.';
 $string['emailcontentmanagerdefaultvalue'] = 'This is a reminder notification from course %courseshortname%, regarding user %userfirstname% %userlastname%.';
 $string['emaildelay'] = 'Notification delay';
 $string['emaildelay_help'] = 'When module is set to notify users "after delay", this setting controls how long the delay is.';
 $string['emailrecipient'] = 'Notify recipient(s)';
-$string['emailrecipient_help'] = 'When a notification needs to be sent out to prompt a user\'s re-engagement with the course, this setting controls if a notification is sent to the user, their manager, or both.';
+$string['emailrecipient_help'] = 'When a notification needs to be sent out to prompt a user\'s re-engagement with the course, this setting controls if a notification is sent to the user, their manager(s), or both.';
 $string['emailsubject'] = 'Notification subject (User)';
 $string['emailsubject_help'] = 'When the module notifies a user, it takes the notification subject from this field.';
-$string['emailsubjectmanager'] = 'Notification subject (Manager)';
-$string['emailsubjectmanager_help'] = 'When the module notifies a user\'s manager, it takes the notification subject from this field.';
+$string['emailsubjectmanager'] = 'Notification subject (Manager(s))';
+$string['emailsubjectmanager_help'] = 'When the module notifies a user\'s manager(s), it takes the notification subject from this field.';
 $string['emailsubjectthirdparty'] = 'Notification subject (Third-party)';
 $string['emailsubjectthirdparty_help'] = 'When the module notifies a third-party, it takes the notification subject from this field.';
 $string['emailtime'] = 'Notify time';
@@ -86,6 +101,7 @@ $string['receiveemailattimex'] = 'Message will be sent on {$a}.';
 $string['receiveemailattimexunless'] = 'Message will be sent on {$a} unless you complete target activity.';
 $string['reengagement:addinstance'] = 'reengagement:addinstance';
 $string['reengagement:startreengagement'] = 'Start Reengagement';
+$string['reengagement:getnotifications'] = 'Receive notification of reengagement completions';
 $string['reengagement:editreengagementduration'] = 'Edit Reengagement Duration';
 $string['reengagementduration'] = 'Reengagement duration';
 $string['reengagementfieldset'] = 'Reengagement details';
@@ -103,6 +119,5 @@ $string['suppressemail'] = 'Suppress notification if target activity complete';
 $string['suppressemail_help'] = 'This option instructs the activity to suppress notifications to users where a named activity is complete.';
 $string['suppresstarget'] = 'Target activity.';
 $string['suppresstarget_help'] = 'Use this dropdown to choose which activity should be checked for completion before sending the reminder notification.';
-$string['userandmanager'] = 'User and Manager';
+$string['userandmanager'] = 'User and Manager(s)';
 $string['weeks'] = 'Weeks';
-

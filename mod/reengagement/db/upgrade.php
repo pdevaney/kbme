@@ -108,7 +108,7 @@ function xmldb_reengagement_upgrade($oldversion=0) {
         upgrade_mod_savepoint(true, 2016112400, 'reengagement');
     }
     // Set default value
-    if ($oldversion < 2017040400) {
+    if ($oldversion < 2016112402) {
 
         $table = new xmldb_table('reengagement');
         $field = new xmldb_field('thirdpartyemails', XMLDB_TYPE_TEXT, null, null, false, null, null);
@@ -123,10 +123,10 @@ function xmldb_reengagement_upgrade($oldversion=0) {
         $field = new xmldb_field('emailcontentthirdpartyformat', XMLDB_TYPE_INTEGER, '4', null, false, null, '0');
         $dbman->change_field_notnull($table, $field);
 
-        upgrade_mod_savepoint(true, 2017040400, 'reengagement');
+        upgrade_mod_savepoint(true, 2016112402, 'reengagement');
     }
 
-    if ($oldversion < 2017102001) {
+    if ($oldversion < 2016112403) {
         global $CFG;
         require_once($CFG->dirroot.'/mod/reengagement/lib.php');
         // A bug in previous versions prevented some e-mails from being sent.
@@ -175,7 +175,7 @@ function xmldb_reengagement_upgrade($oldversion=0) {
         }
         $missingprogress->close();
 
-        upgrade_mod_savepoint(true, 2017102001, 'reengagement');
+        upgrade_mod_savepoint(true, 2016112403, 'reengagement');
     }
 
     return true;
