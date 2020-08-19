@@ -470,7 +470,10 @@ class core_course_renderer extends plugin_renderer_base {
             if ($completiondata->completionstate == COMPLETION_COMPLETE_PASS || $completiondata->completionstate == COMPLETION_COMPLETE_FAIL) {
                 require_once($CFG->dirroot . "/lib/grade/grade_item.php");
                 $grade_item = grade_item::fetch(array('courseid' => $course->id, 'itemmodule' => $mod->modname, 'iteminstance' => $mod->instance));
-                if ($grade_item->is_hidden()) {
+                
+                //tempoarary fix put in to sidestep issue in reengagment activity causing course page display to crash
+                if ($mod->modname<>'reengagement' && $grade_item->is_hidden()) {
+                //end of temporary fix
                     $completionicon = 'auto-y';
                 } else {
                     require_once($CFG->dirroot . "/lib/grade/grade_grade.php");
