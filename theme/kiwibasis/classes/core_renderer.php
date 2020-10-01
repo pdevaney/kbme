@@ -40,10 +40,15 @@ class theme_kiwibasis_core_renderer extends core_renderer {
         global $OUTPUT;
 
         $output = parent::course_content_header($onlyifnotcalledbefore);
-        if ($this->page->pagetype !== 'course-view-topics') {
-            return $output;
+        switch($this->page->pagetype) {
+            case 'course-view-topics':
+            case 'course-view-weeks':
+            case 'course-view-social':
+            case 'course-view-topcoll':
+                $output .= $OUTPUT->heading($this->page->course->fullname, 1, 'headingblock header outline');
+                break;
         }
-        $output .= $OUTPUT->heading($this->page->course->fullname, 1, 'headingblock header outline');
+
         return $output;
     }
 
