@@ -8,6 +8,24 @@
 
 namespace local_kiwibank;
 
+require_once($CFG->dirroot.'/lib/filestorage/file_storage.php');
+require_once($CFG->dirroot.'/admin/tool/totara_sync/lib.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Net/SFTP.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Math/BigInteger.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/Random.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/Hash.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/Base.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/RC4.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/RC2.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/RSA.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/AES.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/DES.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/Rijndael.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/Twofish.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/Blowfish.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/Random.php');
+require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/TripleDES.php');
+
 class totara_sync {
     static function merge_files() {
         global $CFG;
@@ -95,36 +113,33 @@ class totara_sync {
         
         $filedir = rtrim(get_config('totara_sync', 'filesdir'), '/');
         $systemcontext = \context_system::instance();
-
-        foreach ($feeds as $feed) {
-
-            //check feed is complete. 
-
-            if(!$connection = ssh2_connect($host, 22)) {
-               throw new moodle_exception('kbsshcantconnect','kiwibank'); 
-            } 
-
-            if(!ssh2_auth_password($connection, $sftpuser, $sftpass)) {
+        
+        $sftp = new \Net_SFTP($host);
+        $connected = $sftp->login($sftpuser, $sftpass);
+    
+        if(!$connected) {
                 throw new moodle_exception('kbssfailedtoauthenticate','kiwibank');
-            }
-
+        }
+    
+    
+        foreach ($feeds as $feed) {
 
             foreach ($feed['feedelements'] as $feedelement) {
 
-
                 totara_sync_log($feedelement['destelement'], "Retrieving ".$feed['feedname']." file", 'info', 'retrievekbfiles');
-                if (!ssh2_scp_recv($connection, $feed['remotesource'].'/'.$feedelement['filename'], $feed['localsource'].$feedelement['filename'])){ 
+                if (!$sftp->get($feed['remotesource'].$feedelement['filename'],$feed['localsource'].$feedelement['filename'])){ 
                     if($feedelement['required']) {
                         totara_sync_log($feedelement['destelement'], "Required ".$feed['feedname']." file not present", 'error', 'retrievekbfiles');
                     } else {
                         totara_sync_log($feedelement['destelement'], $feed['feedname']." file not present", 'info', 'retrievekbfiles');
                     }
                 } else {
-                    $cmd='rm '.$feed['remotesource'].$feedelement['filename'];
-                    $stream = ssh2_exec($connection, $cmd);
+
+                    //$cmd='rm \''.$feed['remotesource'].$feedelement['filename'].'\'';
+                    //$stream = ssh2_exec($connection, $cmd);
                 }
 
-
+                
                 //Establish existence of file 
                 $filepath=$feed['localsource'].$feedelement['filename'];
 
