@@ -67,10 +67,6 @@ class lib {
             $filename = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $filename);
             $filename = mb_ereg_replace("([\.]{2,})", '', $filename);
 
-            $uploadfilename = $report->fullname;
-            $uploadfilename = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).])", '', $uploadfilename);
-            $uploadfilename = mb_ereg_replace("([\.]{2,})", '', $uploadfilename) . '.' . $writer::get_file_extension();
-
             // Remove older files.
             $count = 0;
             foreach($currentfiles as $file) {
@@ -92,7 +88,7 @@ class lib {
                 }
             } while (file_exists($folderfilename));
 
-            $uploadfile = rtrim($config->sftp_destination_folder, '/').'/' . $uploadfilename;
+            $uploadfile = rtrim($config->sftp_destination_folder, '/').'/' . $filename;
 
             $eventdata1 = [ 'objectid' => $reportid, 'other' => ['filename' => $folderfilename ] ];
             $eventdata2 = [ 'objectid' => $reportid, 'other' => ['filename' => $uploadfile ] ];

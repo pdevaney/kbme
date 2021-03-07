@@ -79,7 +79,7 @@ class totara_sync {
                 if ($count > 1) {
                     // Remove the heading line for subsequent files
                     unset($filecontent[0]);
-                }
+                } 
                 // Append file content to merged file
                 $content = array_merge($content, $filecontent);
                 unset($filecontent);
@@ -120,7 +120,8 @@ class totara_sync {
         if(!$connected) {
                 throw new moodle_exception('kbssfailedtoauthenticate','kiwibank');
         }
-    
+@error_reporting(E_ALL | E_STRICT);   // NOT FOR PRODUCTION SERVERS!
+@ini_set('display_errors', '1');         // NOT FOR PRODUCTION SERVERS! 
     
         foreach ($feeds as $feed) {
 
