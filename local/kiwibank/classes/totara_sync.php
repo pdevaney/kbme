@@ -6,7 +6,7 @@
  * @author Eugene Venter <eugene@catalyst.net.nz>
  */
 
-
+namespace local_kiwibank;
 require_once('/var/www/staging-kbme.kiwibank.co.nz/config.php');
 require_once($CFG->dirroot.'/lib/filestorage/file_storage.php');
 require_once($CFG->dirroot.'/admin/tool/totara_sync/lib.php');
