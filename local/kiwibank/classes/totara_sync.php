@@ -6,8 +6,8 @@
  * @author Eugene Venter <eugene@catalyst.net.nz>
  */
 
-namespace local_kiwibank;
 
+require_once('/var/www/staging-kbme.kiwibank.co.nz/config.php');
 require_once($CFG->dirroot.'/lib/filestorage/file_storage.php');
 require_once($CFG->dirroot.'/admin/tool/totara_sync/lib.php');
 require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Net/SFTP.php');
@@ -29,7 +29,6 @@ require_once ($CFG->dirroot.'/local/kiwibank/lib/phpseclib/Crypt/TripleDES.php')
 class totara_sync {
     static function merge_files() {
         global $CFG;
-
         $elements = array(
             'org'  => array('org1', 'org2', 'org3'),
             'pos'  => array('pos1', 'pos2'),
@@ -37,9 +36,10 @@ class totara_sync {
 	    'jobassignment'  => array('jobassignment1','jobassignment2')
         );
 
+        $filechanges=array('user2'=>array(array('header'=>'NominatedRep','colnum'=>21),array('header'=>'NomRepFrom','colnum'=>22),array('header'=>'NomRepTo','colnum'=>23)));
+	
         $fs = get_file_storage();
         $systemcontext = \context_system::instance();
-
         // Merge elements together
         foreach ($elements as $element => $subelements) {
             totara_sync_log($element, "Merging {$element} files", 'info', 'mergefiles');
@@ -52,7 +52,8 @@ class totara_sync {
             // Number of files merged in
             $count = 0;
             foreach ($subelements as $subelement) {
-                $fieldid = get_config('totara_sync', "sync_{$subelement}_itemid");
+
+		$fieldid = get_config('totara_sync', "sync_{$subelement}_itemid");
 
                 // Check that the files exist
                 if (!$fieldid || !$fs->file_exists($systemcontext->id, 'totara_sync', $subelement, $fieldid, '/', '')) {
@@ -67,20 +68,49 @@ class totara_sync {
                         continue;
                     }
                 }
-
                 // Get the file content
                 $fsfiles = $fs->get_area_files($systemcontext->id, 'totara_sync', $subelement, $fieldid, 'id DESC', false);
                 $fsfile = reset($fsfiles);
                 $filecontent = explode(PHP_EOL, trim($fsfile->get_content()));
                 if (empty($filecontent)) {
-                    continue;
+			continue;
                 }
                 $count++;
-                if ($count > 1) {
-                    // Remove the heading line for subsequent files
-                    unset($filecontent[0]);
-                } 
-                // Append file content to merged file
+
+		//if the file needs fields added
+		if (array_key_exists ($subelement ,$filechanges)) {
+
+		    $row=0;
+		    foreach($filecontent as $filerow) {
+			    $rowcsv=str_getcsv($filerow);
+			    if ($row==0) {
+				    if($count==1) {
+					    foreach ($filechanges[$subelement] as $change) {
+						    array_splice($rowcsv,$change['colnum'],0,$change['header']);
+			            		    $filecontent[$row]=implode(',',$rowcsv);   
+				            }	    
+			            } else {
+					    unset($filecontent[0]);
+				    }
+			    } else {
+				foreach ($filechanges[$subelement] as $change) {
+				    array_splice($rowcsv,$change['colnum'],0,"");
+			            $filecontent[$row]=implode(',',$rowcsv);   
+                                }				    
+			    }
+
+
+
+			    $row++;
+		    }
+		 } else {
+
+		     if ($count > 1) {
+                         // Remove the heading line for subsequent files
+                         unset($filecontent[0]);
+		     } 
+		}
+		// Append file content to merged file
                 $content = array_merge($content, $filecontent);
                 unset($filecontent);
             }
@@ -120,8 +150,6 @@ class totara_sync {
         if(!$connected) {
                 throw new moodle_exception('kbssfailedtoauthenticate','kiwibank');
         }
-@error_reporting(E_ALL | E_STRICT);   // NOT FOR PRODUCTION SERVERS!
-@ini_set('display_errors', '1');         // NOT FOR PRODUCTION SERVERS! 
     
         foreach ($feeds as $feed) {
 
