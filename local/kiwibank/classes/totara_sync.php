@@ -36,7 +36,8 @@ class totara_sync {
 	    'jobassignment'  => array('jobassignment1','jobassignment2')
         );
 
-        $filechanges=array('user2'=>array(array('header'=>'NominatedRep','addprefix'=>true,'colnum'=>22),array('header'=>'NomRepFrom','addprefix'=>true,'colnum'=>23),array('header'=>'NomRepTo','addprefix'=>true,'colnum'=>24)));
+        $filechanges=array('user2'=>array(array('header'=>'NominatedRep','addprefix'=>true,'colnum'=>22),array('header'=>'NomRepFrom','addprefix'=>true,'colnum'=>23),array('header'=>'NomRepTo','addprefix'=>true,'colnum'=>24)),
+            'user1'=>array(array('header'=>'NominatedRep','addprefix'=>true,'colnum'=>22),array('header'=>'NomRepFrom','addprefix'=>true,'colnum'=>23),array('header'=>'NomRepTo','addprefix'=>true,'colnum'=>24)));
 	
         $fs = get_file_storage();
         $systemcontext = \context_system::instance();
@@ -88,6 +89,7 @@ class totara_sync {
 					    foreach ($filechanges[$subelement] as $change) {
 						   if($change['addprefix']) {
                                                         $rowcsv[$change['colnum']]='customfields_'.$rowcsv[$change['colnum']];
+                                                        $filecontent[$row]=implode(',',$rowcsv);
                                                     } else {
                                                      array_splice($rowcsv,$change['colnum'],0,$change['header']);
 			            		    $filecontent[$row]=implode(',',$rowcsv);
