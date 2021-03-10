@@ -36,7 +36,7 @@ class totara_sync {
 	    'jobassignment'  => array('jobassignment1','jobassignment2')
         );
 
-        $filechanges=array('user2'=>array(array('header'=>'NominatedRep','colnum'=>21),array('header'=>'NomRepFrom','colnum'=>22),array('header'=>'NomRepTo','colnum'=>23)));
+        $filechanges=array('user2'=>array(array('header'=>'NominatedRep','colnum'=>22),array('header'=>'NomRepFrom','colnum'=>23),array('header'=>'NomRepTo','colnum'=>24)));
 	
         $fs = get_file_storage();
         $systemcontext = \context_system::instance();
