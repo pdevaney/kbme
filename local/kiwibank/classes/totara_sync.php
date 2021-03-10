@@ -36,7 +36,7 @@ class totara_sync {
 	    'jobassignment'  => array('jobassignment1','jobassignment2')
         );
 
-        $filechanges=array('user2'=>array(array('header'=>'NominatedRep','colnum'=>22),array('header'=>'NomRepFrom','colnum'=>23),array('header'=>'NomRepTo','colnum'=>24)));
+        $filechanges=array('user2'=>array(array('header'=>'NominatedRep','addprefix'=>true,'colnum'=>22),array('header'=>'NomRepFrom','addprefix'=>true,'colnum'=>23),array('header'=>'NomRepTo','addprefix'=>true,'colnum'=>24)));
 	
         $fs = get_file_storage();
         $systemcontext = \context_system::instance();
@@ -86,8 +86,12 @@ class totara_sync {
 			    if ($row==0) {
 				    if($count==1) {
 					    foreach ($filechanges[$subelement] as $change) {
-						    array_splice($rowcsv,$change['colnum'],0,$change['header']);
-			            		    $filecontent[$row]=implode(',',$rowcsv);   
+						   if($change['addprefix']) {
+                                                        $rowcsv[$change['colnum']]='customfields_'.$rowcsv[$change['colnum']];
+                                                    } else {
+                                                     array_splice($rowcsv,$change['colnum'],0,$change['header']);
+			            		    $filecontent[$row]=implode(',',$rowcsv);
+                                                    }
 				            }	    
 			            } else {
 					    unset($filecontent[0]);
