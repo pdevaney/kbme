@@ -88,7 +88,7 @@ class totara_sync {
 				    if($count==1) {
 					    foreach ($filechanges[$subelement] as $change) {
 						   if($change['addprefix']) {
-                                                        $rowcsv[$change['colnum']]='customfields_'.$rowcsv[$change['colnum']];
+                                                        $rowcsv[$change['colnum']]='customfield_'.$rowcsv[$change['colnum']];
                                                         $filecontent[$row]=implode(',',$rowcsv);
                                                     } else {
                                                      array_splice($rowcsv,$change['colnum'],0,$change['header']);
