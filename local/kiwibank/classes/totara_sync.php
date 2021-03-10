@@ -100,8 +100,10 @@ class totara_sync {
 				    }
 			    } else {
 				foreach ($filechanges[$subelement] as $change) {
-				    array_splice($rowcsv,$change['colnum'],0,"");
-			            $filecontent[$row]=implode(',',$rowcsv);   
+				    if(!$change['addprefix']) {
+                                        array_splice($rowcsv,$change['colnum'],0,"");
+                                       $filecontent[$row]=implode(',',$rowcsv);
+                                    }
                                 }				    
 			    }
 
