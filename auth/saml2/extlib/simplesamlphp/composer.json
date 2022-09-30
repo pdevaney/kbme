@@ -40,7 +40,7 @@
         "simplesamlphp/saml2": "~3.1.4",
         "robrichards/xmlseclibs": "~3.0",
         "whitehat101/apr1-md5": "~1.0",
-        "twig/twig": "~1.0",
+        "twig/twig": "~2.12",
         "gettext/gettext": "^3.5",
         "jaimeperez/twig-configurable-i18n": "^1.2"
     },
